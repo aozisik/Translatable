@@ -36,7 +36,7 @@ class Translator {
 
 		if(is_array($input)){
 
-			foreach($input as $language => $trasnlation){
+			foreach($input as $language => $translation){
 				$this->addTranslation($language, $translation);
 			}
 
