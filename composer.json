@@ -1,6 +1,7 @@
 {
     "name": "aozisik/translatable",
     "description": "Translatable is a package that helps you have translatable fields on models. These fields will store your translations in JSON format and will be automatically fetched to your current app locale when you try to reach them. You can also get a specific language of your choice by using certain methods. Please refer to the Github page for further details.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ahmet Ozisik",
