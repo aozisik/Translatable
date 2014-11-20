@@ -1,5 +1,7 @@
 #Laravel Translatable#
 [![Build Status](https://travis-ci.org/aozisik/Translatable.svg)](https://travis-ci.org/aozisik/Translatable)
+[![Latest Unstable Version](https://poser.pugx.org/aozisik/translatable/v/unstable.svg)](https://packagist.org/packages/aozisik/translatable)
+[![License](https://poser.pugx.org/aozisik/translatable/license.svg)](https://packagist.org/packages/aozisik/translatable)
 
 This package is designed to work with Laravel 4 and Eloquent ORM.
 
