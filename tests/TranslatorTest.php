@@ -39,4 +39,36 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 		// the cound should increase
 		$this->assertCount(2, $translator->translations);
 	 }
+
+	 public function testProcessesInput(){
+
+	 	$translator = new Translator();
+
+	 	// can process strings
+	 	$this->assertTrue($translator->processInput('string'));
+	 	// the string is added to translations
+	 	$this->assertContains('string', $translator->translations);
+
+	 	// can process an array
+	 	$this->assertTrue($translator->processInput(array('en' => 'english', 'fr' => 'french')));
+	 	
+	 	// elements from this array are added to translations
+	 	$this->assertContains('english', $translator->translations);
+	 	$this->assertContains('french', $translator->translations);
+
+	 	// it should not process integers
+	 	$this->assertFalse($translator->processInput(1));
+	 	// it should not process classes
+	 	$this->assertFalse($translator->processInput(new \StdClass));
+	 }
+
+	 public function testSerialize(){
+
+	 	$test = array('en' => 'english', 'fr' => 'french');
+
+	 	$translator = new Translator();
+	 	$translator->processInput($test);
+	 	// test if json serialization is correct
+	 	$this->assertJsonStringEqualsJsonString(json_encode($test), $translator->serialize());
+	 }
 }
