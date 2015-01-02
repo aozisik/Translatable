@@ -28,14 +28,24 @@ trait TranslatableTrait {
 
     public function setAttribute($key, $value) {
 		
-    	if(!isset($this->localizedFields) or !in_array($key, $this->localizedFields)) {
-
-    		parent::setAttribute($key, $value);
-
-    	} else {
-
-    		$translator = new \Aozisik\Translatable\Translator($value);
-    		parent::setAttribute($key, $translator->serialize());
+    	if(isset($this->localizedFields) and in_array($key, $this->localizedFields)) {
+    		// translate the value and replace it with values
+    		$value = \Translator::processAndSerialize($value);
     	}
+
+    	parent::setAttribute($key, $value);
+    }
+
+
+    // translates model into given language
+    public function translate($language_code) {
+        // check if localized fields exist on model
+        if( ! isset($this->localizedFields) || !is_array($this->localizedFields)) {
+            return; // no localized fields
+        }
+        // translate each field
+        foreach($this->localizedFields as $field) {
+            $this->attributes[$field] = $this->getTranslation($field, $language_code);
+        }
     }
 }

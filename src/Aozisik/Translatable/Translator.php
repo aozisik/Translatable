@@ -9,13 +9,9 @@ class Translator {
 	* You can instantiate this class with no parameters, a string or an array.
 	* If you pass arguments as you instantiate, it will process them right away.
 	*/
-	public function __construct($input=null){
+	public function __construct(){
 
-		$this->translations = array();
-
-		if(!is_null($input)){
-			$this->processInput($input);
-		}	
+		$this->translations = array();	
 	}
 
 	/*
@@ -64,6 +60,15 @@ class Translator {
 	// convert translations to JSON format for storage
 	public function serialize(){
 		return json_encode($this->translations);
+	}
+
+	public function processAndSerialize($input) {
+		// empty translations array
+		$this->translations = array();
+		// process translations
+		$this->processInput($input);
+		// serialize translations into JSON
+		return $this->serialize();
 	}
 
 }
