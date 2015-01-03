@@ -1,39 +1,41 @@
 <?php namespace Aozisik\Translatable;
 
+use \Translator;
+
 trait TranslatableTrait {
-	
-	public function getTranslation($field, $language_code)
-	{
-		if(empty($this->attributes[$field])) {
-			return null;
-		}
+    
+    public function getTranslation($field, $language_code)
+    {
+        if(empty($this->attributes[$field])) {
+            return null;
+        }
 
-		$localized = json_decode($this->attributes[$field], 1);
+        $localized = json_decode($this->attributes[$field], 1);
 
-		if(!isset($localized[$language_code])) {
-			return null;
-		}
+        if(!isset($localized[$language_code])) {
+            return null;
+        }
 
-		return $localized[$language_code];
-	}
+        return $localized[$language_code];
+    }
 
     public function getAttribute($key) {
 
-    	if(!isset($this->localizedFields) or !in_array($key, $this->localizedFields)) {
-			return parent::getAttribute($key);
-    	}
+        if(!isset($this->localizedFields) or !in_array($key, $this->localizedFields)) {
+            return parent::getAttribute($key);
+        }
         
         return $this->getTranslation($key, \App::getLocale());
     }
 
     public function setAttribute($key, $value) {
-		
-    	if(isset($this->localizedFields) and in_array($key, $this->localizedFields)) {
-    		// translate the value and replace it with values
-    		$value = \Translator::processAndSerialize($value);
-    	}
+        
+        if(isset($this->localizedFields) and in_array($key, $this->localizedFields)) {
+            // translate the value and replace it with values
+            $value = Translator::processAndSerialize($value);
+        }
 
-    	parent::setAttribute($key, $value);
+        parent::setAttribute($key, $value);
     }
 
 

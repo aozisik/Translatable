@@ -4,6 +4,13 @@ use Illuminate\Support\ServiceProvider;
 
 class TranslatorServiceProvider extends ServiceProvider {
 
+    public function boot()
+    {
+        $this->app['Translator'] = $this->app->share(function($app)
+        {
+            return new \Aozisik\Translatable\Translator;
+        });
+    }
 
     public function register()
     {
@@ -11,7 +18,7 @@ class TranslatorServiceProvider extends ServiceProvider {
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Translator', 'Aozisik\Translatable\Translator');
+            $loader->alias('Translator', 'Aozisik\Translatable\Facades\Translator');
         });
     }
 
