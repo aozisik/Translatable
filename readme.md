@@ -32,32 +32,31 @@ Name and description fields in your Book model are now translatable.
 
 ##How does it Work?##
 
-After adding the trait, your model will start automatically translating data. However, if you have previous data, it might yield unexpected results.
+Upon adding the "TranslatableTrait" trait, your model will begin to translate localizedFields on the fly. However, if you have data in the table previously saved without the trait, it might yield unexpected results.
 
 If you are starting from scratch, Translatable works like this:
 
-* When you access an attribute, say $book->name, translatable will automatically translate it to the activated language* and saved to the database as if you posted a single language text. 
+* When you access an attribute, say $book->name, translatable will automatically translate it to the activated language*
 
-* When you set an attribute, and the value is a string, it will be regarded as using the activated language* 
+* When you set an attribute, and the value is a string, it will be assumed that this string is in the activated language*
 
-
-* To send translations in multiple language you must assign an array to the attribute. The keys in the array should correspond to language codes. 
+* To store multilingual translations at once, you must assign an array to the attribute. The keys in the array should correspond to language codes. 
 
 
 		$book->name = array('en' => 'Book', 'fr' => 'Le Livre', 'de' => 'Das Buch');
 		$book->save;
 		
-In the database, name field for this record looks like this: `{"en":"Book","fr":"Le Livre","de":"Das Buch"}`
+In the database, the name field for this record looks like this: `{"en":"Book","fr":"Le Livre","de":"Das Buch"}`
 
-Pretty simple! However, please take into account that the designated input length for the field may not be enough to store paragraphs of translated data.
+Pretty simple! However, please take into account that the designated input length for the field may not be enough to store lengthy strings of JSON.
 
-So rather than VARCHAR(255), you are usually better off using TEXT
+So rather than VARCHAR(255), you are usually better off using TEXT for localized fields.
 
-**How to Get A Translation for A Specific Language**
+**How to Get Translations in a Specific Language**
 
-You may need to get the translation for a specific language which is not necessarily the activated language.
+You may need to get translations in a specific language other than the activated language at that time.
 
-This can be done like this
+This can be done like that:
     
     $book->getTranslation('name', 'de); // Das Buch
     $book->getTranslation('name', 'en); // Book
@@ -66,26 +65,26 @@ This can be done like this
     $book->name; // Book, if App::getLocale() returns "en"    
 	
 
-
 *Activated language is determined by `App::getLocale()`
 
 ## Pros and Cons##
 
-Let's start with good news:
+Let's start with pros:
 
-	1) You need no additional tables,
-	2) no significant code change,
-	3) no complicated stuff
++ No additional tables to store translations,
++ No significant change in code required,
++ No migrations, no configuration, no nothing
 
-Just works out of the box.
+Just add the trait to your model and it works out of the box.
 
 However there are some drawbacks
 
-	1) Sorting can be a problem as localized fields will basically store json serializations. 
-	2) You may need to do some prep work to get it to work with your existing data.
-	3) You may need to turn some VARCHAR's into TEXT's depending on your current database design.
-	
-	
-Overall, this is a very practical approach and it is dead simple to use it.
+- Sorting can be a problem as localized fields will basically store json serializations. 
+- If you have existing data, you should store them in the same format as this trait does.
+- You may need to turn some VARCHAR's into TEXT's depending on your current database design.
 
-I am open to your suggestions. Pull requests and bug reports are welcomed.
+---	
+
+Overall, I believe this to be a very practical approach and it is quite simple to implement.
+
+I am open to suggestions. Pull requests and bug reports are welcomed.
