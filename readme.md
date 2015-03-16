@@ -36,9 +36,9 @@ Upon adding the "TranslatableTrait" trait, your model will begin to translate lo
 
 If you are starting from scratch, Translatable works like this:
 
-* When you access an attribute, say $book->name, translatable will automatically translate it to the activated language*
+* When you access an attribute, say $book->name, translatable will automatically translate it into the activated language*
 
-* When you set an attribute, and the value is a string, it will be assumed that this string is in the activated language*
+* When you set an attribute and the set value is a string, it will be assumed that this string is in the activated language*
 
 * To store multilingual translations at once, you must assign an array to the attribute. The keys in the array should correspond to language codes. 
 
